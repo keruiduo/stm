@@ -86,7 +86,7 @@ searchK <- function(documents, vocab, K, init.type = "Spectral",
   # multi core
   } else {
       cat("Using multiple-cores.  Progress will not be shown. \n")
-      g <- parallel::mclapply(K, get_statistics, mc.cores = cores, heldout=heldout, init.type=init.type,
+      g <- parallel::parLapply(K, get_statistics, mc.cores = cores, heldout=heldout, init.type=init.type,
                               M=M,...)
   } 
 
