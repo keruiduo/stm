@@ -66,7 +66,7 @@
 #' @export
 searchK <- function(documents, vocab, K, init.type = "Spectral", 
                     N = floor(.1*length(documents)), proportion = .5, 
-                    heldout.seed = NULL, M = 10, cores = 1, ...) {
+                    heldout.seed = NULL, M = 10, cores = NULL, ...) {
 
   #Make a heldout dataset
   heldout <- make.heldout(documents,vocab, N=N, proportion=proportion, 
@@ -78,7 +78,7 @@ searchK <- function(documents, vocab, K, init.type = "Spectral",
   }
   
   # single core
-  if (cores == 1) {
+  if (cores == NULL) {
       g <- list()
       for (i in seq_along(K)) { # loop produces nicer printout than lapply
           g[[i]] <- get_statistics(K[i], heldout=heldout, init.type=init.type,M=M,...)
@@ -86,7 +86,7 @@ searchK <- function(documents, vocab, K, init.type = "Spectral",
   # multi core
   } else {
       cat("Using multiple-cores.  Progress will not be shown. \n")
-      g <- parallel::parLapply(K, get_statistics, mc.cores = cores, heldout=heldout, init.type=init.type,
+      g <- parallel::parLapply(cores, K, get_statistics, heldout=heldout, init.type=init.type,
                               M=M,...)
   } 
 
