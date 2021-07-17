@@ -78,7 +78,7 @@ searchK <- function(documents, vocab, K, init.type = "Spectral",
   }
   
   # single core
-  if (cores == NULL) {
+  if (is.null(cores)) {
       g <- list()
       for (i in seq_along(K)) { # loop produces nicer printout than lapply
           g[[i]] <- get_statistics(K[i], heldout=heldout, init.type=init.type,M=M,...)
